@@ -39,3 +39,12 @@ class Conta {
 let conta: Conta = new Conta("111-1", 50);
 conta.sacar1(100);
 console.log(conta.sacar2(100));
+
+//2. Limitações de uso:
+
+//     - Desconsiderar operação: gera incerteza quanto ao sucesso ou não da operação.
+//     - Exibir mensagem de erro: limita a resposta à interface texto; Se o usuário estivesse
+//     em uma aplicação WEB, por exemplo, a mensagem passaria despercebida, pois ele não iria olhar o prompt/console.
+//     - Retornar um código de erro: ter que reservar valores para representar erros (no caso de utlizar retorno de números)
+//     causa grande confusão caso uma função utilize esses números com outros propósitos. Além disso, tipar a função como
+//     boolean também pode atrapalhar caso precise de outro tipo de retorno.
