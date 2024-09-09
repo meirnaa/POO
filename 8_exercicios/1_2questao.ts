@@ -3,7 +3,7 @@
 //     - Exibir mensagem de erro;
 //     - Retornar um código de erro;
 
-class Conta {
+class Continha {
     private _numero: string;
     private _saldo: number;
 
@@ -36,7 +36,7 @@ class Conta {
     }
 }
 
-let conta: Conta = new Conta("111-1", 50);
+let conta: Continha = new Continha("111-1", 50);
 conta.sacar1(100);
 console.log(conta.sacar2(100));
 
