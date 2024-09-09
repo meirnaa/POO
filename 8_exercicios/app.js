@@ -1,13 +1,4 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppBanco = void 0;
 var fs_1 = require("fs");
@@ -26,6 +17,7 @@ var AppBanco = /** @class */ (function () {
         var op = "";
         do {
             this.listarOpcoes();
+            //13.
             try {
                 op = this._input('Digite uma opção: ');
                 switch (op) {
@@ -54,7 +46,7 @@ var AppBanco = /** @class */ (function () {
                         this.totalizacoes();
                         break;
                     case "9":
-                        this.executarOrdemDePagamento();
+                        this.OrdemDePagamento();
                         break;
                     case "10":
                         this.listarContas();
@@ -83,8 +75,17 @@ var AppBanco = /** @class */ (function () {
     AppBanco.prototype.cadastrar = function () {
         console.log("\nCadastrar conta\n");
         var numero = this._input('Digite o número da conta: ');
+        if (numero.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var nomeCliente = this._input('Digite o nome do cliente: ');
-        var opcaoConta = this._input('Informe o tipo: 1 - Conta 2 - Poupança 3 - Conta Imposto :');
+        if (nomeCliente.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O nome do cliente não pode ser vazio.");
+        }
+        var opcaoConta = this._input('Informe o tipo: 1 - Conta 2 - Poupança 3 - Conta Imposto: ');
+        if (opcaoConta != "1" && opcaoConta != "2" && opcaoConta != "3") {
+            throw new excecoes_1.ValorInvalidoError("Opção de conta inválida.");
+        }
         var cliente = new modelos_1.Cliente(this._idCliente++, nomeCliente);
         var conta;
         if (opcaoConta == "2") {
@@ -118,48 +119,106 @@ var AppBanco = /** @class */ (function () {
     AppBanco.prototype.sacar = function () {
         console.log("\nSacar\n");
         var numero = this._input('Digite o número da conta: ');
+        if (numero.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var valor = parseFloat(this._input('Digite o valor do saque: '));
+        if (isNaN(valor) || valor <= 0) {
+            throw new excecoes_1.ValorInvalidoError("O valor do saque deve ser um número positivo.");
+        }
         this._banco.sacar(numero, valor);
         this.exibirConta(numero);
     };
     AppBanco.prototype.depositar = function () {
         console.log("\nDepositar\n");
         var numero = this._input('Digite o número da conta: ');
+        if (numero.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var valor = parseFloat(this._input('Digite o valor do depósito: '));
+        if (isNaN(valor) || valor <= 0) {
+            throw new excecoes_1.ValorInvalidoError("O valor do depósito deve ser um número positivo.");
+        }
         this._banco.depositar(numero, valor);
         this.exibirConta(numero);
     };
     AppBanco.prototype.renderJuros = function () {
         console.log("\Render juros\n");
         var numero = this._input('Digite o número da poupança: ');
+        if (numero.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         this._banco.renderJuros(numero);
         this.exibirConta(numero);
     };
     AppBanco.prototype.excluir = function () {
-        throw new Error('Method not implemented.');
+        console.log("\nExcluir conta\n");
+        var numero = this._input('Digite o número da conta a ser excluída: ');
+        try {
+            var conta = this._banco.consultar(numero);
+            this._banco.excluir(numero);
+            console.log("Conta ".concat(numero, " exclu\u00EDda com sucesso."));
+        }
+        catch (e) {
+            if (e instanceof excecoes_1.AplicacaoError) {
+                console.log("Erro ao excluir conta: ".concat(e.message));
+            }
+            else {
+                console.log("Erro desconhecido ao excluir a conta.");
+            }
+        }
+        this.imprimirPressionarEnter();
     };
     AppBanco.prototype.transferir = function () {
         console.log("\Transferir\n");
         var numeroOrigem = this._input('Digite o número da conta de origem: ');
+        if (numeroOrigem.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var numeroDestino = this._input('Digite o número da conta de destino: ');
+        if (numeroDestino.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var valor = parseFloat(this._input('Digite o valor do depósito: '));
+        if (isNaN(valor) || valor <= 0) {
+            throw new excecoes_1.ValorInvalidoError("O valor do depósito deve ser um número positivo.");
+        }
         this._banco.transferir(numeroOrigem, numeroDestino, valor);
         this.exibirConta(numeroOrigem, false);
         this.exibirConta(numeroDestino);
     };
-    AppBanco.prototype.executarOrdemDePagamento = function () {
-        var _a;
+    AppBanco.prototype.OrdemDePagamento = function () {
         console.log("\Ordem bancária\n");
         var numeroOrigem = this._input('Digite o número da conta de origem: ');
+        if (numeroOrigem.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var numeroDestino1 = this._input('Digite o número da conta de destino 1: ');
+        if (numeroDestino1.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var numeroDestino2 = this._input('Digite o número da conta de destino 2: ');
+        if (numeroDestino2.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var numeroDestino3 = this._input('Digite o número da conta de destino 3: ');
+        if (numeroDestino3.trim() === "") {
+            throw new excecoes_1.ValorInvalidoError("O número da conta não pode ser vazio.");
+        }
         var valor = parseFloat(this._input('Digite o valor do depósito: '));
-        (_a = this._banco).executarOrdemDePagamento.apply(_a, __spreadArray(__spreadArray([numeroOrigem, valor], numeroDestino1, false), [numeroDestino2, numeroDestino3], false));
+        if (isNaN(valor) || valor <= 0) {
+            throw new excecoes_1.ValorInvalidoError("O valor do depósito deve ser um número positivo.");
+        }
+        this.executarOrdemDePagamento(numeroOrigem, valor, numeroDestino1, numeroDestino2, numeroDestino3);
         this.exibirConta(numeroOrigem, false);
         this.exibirConta(numeroDestino1, false);
         this.exibirConta(numeroDestino2, false);
         this.exibirConta(numeroDestino3);
+    };
+    AppBanco.prototype.executarOrdemDePagamento = function (numeroOrigem, valor, numeroDestino1, numeroDestino2, numeroDestino3) {
+        this._banco.transferir(numeroOrigem, numeroDestino1, valor);
+        this._banco.transferir(numeroOrigem, numeroDestino2, valor);
+        this._banco.transferir(numeroOrigem, numeroDestino3, valor);
     };
     AppBanco.prototype.totalizacoes = function () {
         console.log("\nListar totalizações:\n");

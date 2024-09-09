@@ -18,7 +18,6 @@ class Conta {
     constructor(numero: string, saldo: number, cliente: Cliente) {
         this.numero = numero;
         this.cliente = cliente;
-        this.validarValor(saldo)
         //10.
         // this.depositar(saldo); erro - Tenta acessar propriedades que ainda não foram inicializadas
         this._saldo = saldo;

@@ -18,6 +18,7 @@ class ContaNaoEncontradaError extends AplicacaoError {
   }
 }
 
+//14.
 class ValorInvalidoError extends AplicacaoError {
   constructor(message: string) {
     super(message);
@@ -30,7 +31,5 @@ class PoupancaInvalidaError extends AplicacaoError {
       super(message);
     }
 }
-
-//14.
 
 export {PoupancaInvalidaError, AplicacaoError, SaldoInsuficienteError, ContaNaoEncontradaError, ValorInvalidoError };

@@ -41,6 +41,7 @@ var ContaNaoEncontradaError = /** @class */ (function (_super) {
     return ContaNaoEncontradaError;
 }(AplicacaoError));
 exports.ContaNaoEncontradaError = ContaNaoEncontradaError;
+//14.
 var ValorInvalidoError = /** @class */ (function (_super) {
     __extends(ValorInvalidoError, _super);
     function ValorInvalidoError(message) {

@@ -63,7 +63,6 @@ class Banco {
         }
 
         this._contas.pop();
-        console.log(this._contas);
     }
 
     //9.
