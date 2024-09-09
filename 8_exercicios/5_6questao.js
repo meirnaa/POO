@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var modelos_1 = require("./modelos");
-var banco_1 = require("./banco");
-var banco = new banco_1.Banco();
+const modelos_1 = require("./modelos");
+const banco_1 = require("./banco");
+let banco = new banco_1.Banco();
 banco.inserir(new modelos_1.Conta("111-1", 25, new modelos_1.Cliente(1, "Joao")));
 banco.inserir(new modelos_1.Conta("111-2", 150, new modelos_1.Cliente(2, "Larissa")));
 try {
@@ -23,7 +23,7 @@ try {
 catch (error) {
     console.error("Erro capturado:", error.message); //Valor inválido: 0.
 }
-var conta = new modelos_1.Conta("111-3", 100, new modelos_1.Cliente(3, "Meir"));
+let conta = new modelos_1.Conta("111-3", 100, new modelos_1.Cliente(3, "Meir"));
 try {
     //Tentativa de sacar valor < 0
     conta.sacar(-50);

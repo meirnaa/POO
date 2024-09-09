@@ -1,18 +1,18 @@
-import prompt from 'prompt-sync';
-import * as fs from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { Banco } from './banco';
 import { Cliente, Conta, Poupanca, ContaImposto } from './modelos';
 import { AplicacaoError } from './excecoes';
 
+const promptSync = require('prompt-sync');
 class AppBanco {
     private _banco: Banco;
     private _idCliente = 0;
     private CAMINHO_ARQUIVO = './contas.txt'
-    private _input: prompt.Prompt  = prompt();
-    
+    private _input: any; 
+
     constructor() {
         this._banco = new Banco();
-        this._input = prompt();
+        this._input = promptSync(); 
     }
 
     menu() {
@@ -20,6 +20,7 @@ class AppBanco {
         let op: string = "";
         do {
             this.listarOpcoes();
+            //13.
             try {
             op = this._input('Digite uma opção: ');
 
@@ -67,6 +68,8 @@ class AppBanco {
             
 
         } while (op != "0");
+        
+        console.log("Aplicação Encerrada");
     }
 
 
@@ -193,7 +196,7 @@ class AppBanco {
     }
 
     public carregarDeArquivo() {
-        const arquivo: string = fs.readFileSync(this.CAMINHO_ARQUIVO, 'utf-8');
+        const arquivo: string = readFileSync(this.CAMINHO_ARQUIVO, 'utf-8');
         //const linhas: string[] = arquivo.split('\n');
         const linhas: string[] = arquivo.split('\r\n');
         console.log(linhas)
@@ -250,7 +253,7 @@ class AppBanco {
         //deleta os últimos \r\n da string que vai pro arquivo, evitando que grave uma linha vazia
         stringContas = stringContas.slice(0, stringContas.length - 2);
 
-        fs.writeFileSync(this.CAMINHO_ARQUIVO, stringContas, 'utf-8');
+        writeFileSync(this.CAMINHO_ARQUIVO, stringContas, 'utf-8');
         console.log("Contas salvas em arquivo.")
     }
 

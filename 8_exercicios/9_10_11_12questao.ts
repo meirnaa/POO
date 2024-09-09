@@ -26,4 +26,25 @@ console.log(`Saldo da conta ${conta1.numero} apos render juros: ${conta1.saldo}`
 //10. Error: Valor inválido: NaN (Ao alterar o construtor para fazer um saque do valor inicial)
 // Tenta acessar propriedades que ainda não foram inicializadas
 
-//11
+//11.
+try{
+    //Tentativa de sacar valor negativo
+    conta1.sacar(-1);
+}catch(error){
+    console.error("Erro capturado:", error.message);  //Valor inválido: -1.
+}
+
+try{
+    //Tentativa de depositar valor invalido
+    conta1.depositar(0);
+}catch(error){
+    console.error("Erro capturado:", error.message);  //Valor inválido: 0.
+}
+
+//12.
+try{
+    //Tentativa de render juros em conta imposto
+    banco.renderJuros("111-2");
+}catch(error){
+    console.error("Erro capturado:", error.message);  //Erro: Conta não é uma poupança: 111-2
+}

@@ -9,6 +9,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "prompt-sync": "^4.2.0",
+    "readline-sync": "^1.4.10",
     "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/prompt-sync": "^4.2.3"
   }
 }

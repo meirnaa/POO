@@ -2,13 +2,13 @@
 //     - Desconsiderar operação;
 //     - Exibir mensagem de erro;
 //     - Retornar um código de erro;
-var Continha = /** @class */ (function () {
-    function Continha(numero, saldo) {
+class Continha {
+    constructor(numero, saldo) {
         this._numero = numero;
         this._saldo = saldo;
     }
     //Exemplos:
-    Continha.prototype.sacar1 = function (valor) {
+    sacar1(valor) {
         //Desconsiderando operação:
         if (this._saldo >= valor) {
             this._saldo = this._saldo - valor;
@@ -17,8 +17,8 @@ var Continha = /** @class */ (function () {
         else {
             console.log('\nSaldo insuficiente.');
         }
-    };
-    Continha.prototype.sacar2 = function (valor) {
+    }
+    sacar2(valor) {
         if ((this._saldo - valor) < 0) {
             //Retornando código de erro:
             return false;
@@ -27,10 +27,9 @@ var Continha = /** @class */ (function () {
             this._saldo = this._saldo - valor;
             return true;
         }
-    };
-    return Continha;
-}());
-var conta = new Continha("111-1", 50);
+    }
+}
+let conta = new Continha("111-1", 50);
 conta.sacar1(100);
 console.log(conta.sacar2(100));
 //2. Limitações de uso:
